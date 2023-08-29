@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!-- 遍历数组 -->
+  <h2> person list </h2>
+  
+  <button @click="update"> update </button>
+  
+  <ul>
+    <li v-for="(p, index) in persons" :key="p.id">
+      {{p.name}} - {{p.age}} - {{ index }}
+    </li>
+  </ul>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      persons: [
+        {id: '001', name: 'abc', age: 30, sex: 'woman'},
+        {id: '002', name: 'dbe', age: 31, sex: 'woman'},
+        {id: '003', name: 'dgf', age: 18, sex: 'man'},
+        {id: '004', name: 'hgi', age: 19, sex: 'man'},
+      ],
+    },
+    methods: {
+      update() {
+        // this.persons[0].name = 'xm'    奏效
+        // this.persons[0].age = 18   奏效
+        // this.persons[0].sex = 'man'    奏效
+        
+        this.persons[0] = {id: '001', name: 'xm', age: 18, sex: 'man'}  // 页面不生效,但是vm中的数值变化了
+        
+        // vue只有对改变数组的方法生效，改变数组
+        this.persons.splice(0, 1, {id: '001', name: 'xm', age: 18, sex: 'man'})
+      }
+    }
+  })
+</script>
+</body>
+</html>

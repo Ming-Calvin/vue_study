@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!--
+      1. 全局自定义指令： vue.directive('指令名'， 指令配置（对象、函数）)
+         局部自定义指令： new Vue(directives: { 指令名： 指令配置（对象、函数）})
+    
+      2. 指令周期
+         create: 指令和元素绑定时
+         inserted: 绑定的元素插入页面时
+         update: 数据更新时
+         
+       3. 命名时，要用kebab-case命名， 不能用camelCase命名
+      
+    -->
+    
+    
+    <h2> 原本的值： <span v-text="n"></span></h2>
+    <h2> 放大十倍之后的值： <span v-big="n"></span></h2>
+    <button @click="n++"> add </button>
+  
+    <hr>
+    
+    <!-- 要求跟bind一样绑定值，但是需要自动聚焦 -->
+    <h2> 自动绑定 + 聚焦：<input v-fbind="n"></input> </h2>
+    
+  </div>
+  
+  <div id="root2">
+    <h2> 自动绑定 + 聚焦：<input v-fbind="x"></input> </h2>
+  </div>
+  
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    // 全局自定义指令
+    Vue.directive('fbind', {
+      // 当指令和元素绑定时（第一次）
+      bind(element, binding) {
+        console.log(this) // Window
+        element.value = binding.value
+      },
+      // 当指令绑定的元素插入页面时
+      inserted(element, binding) {
+        element.focus()
+      },
+      // 当数据更新时
+      update(element, binding) {
+        element.value = binding.value
+      }
+    })
+    
+    new Vue({
+      el: '#root',
+      data: {
+        n: 1
+      },
+      // 局部自定义指令
+      directives: {
+        // 参数：1.html真实节点    2.绑定的对象，包含value -- 绑定的值
+        // 何时调用： 1. 指令第一次绑定在元素上时（一上来） 2. 指令所在的模板被重新解析时
+        big(element, binding) {
+          element.innerHTML = binding.value * 10
+        },
+        // fbind(element, binding) {
+        //   element.value = binding.value
+        //   // 这么写，第一次不会聚焦，因为第一次绑定是在 指令和元素成功绑定时，此时页面上还没有input元素
+        //   // 但是之后n的值改变后，模板进行重新分析渲染后，会自动聚焦
+        //   element.focus()
+        // }
+        // fbind: {
+        //   // 当指令和元素绑定时（第一次）
+        //   bind(element, binding) {
+        //     console.log(this) // Window
+        //     element.value = binding.value
+        //   },
+        //   // 当指令绑定的元素插入页面时
+        //   inserted(element, binding) {
+        //     element.focus()
+        //   },
+        //   // 当数据更新时
+        //   update(element, binding) {
+        //     element.value = binding.value
+        //   }
+        // }
+      }
+    })
+    
+    new Vue({
+      el: "#root2",
+      data: {
+        x: 2
+      },
+    })
+  </script>
+</body>
+</html>

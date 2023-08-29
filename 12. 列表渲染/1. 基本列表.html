@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!-- 遍历数组 -->
+  <h2> person list </h2>
+  <ul>
+    <li v-for="(p, index) in persons" :key="index">
+      {{p.name}} - {{p.age}} - {{ index }}
+    </li>
+  </ul>
+  
+  <!-- 遍历对象 -->
+  <h2> car list </h2>
+  <ul>
+    <!-- 遍历出第一个是值， 第二个是键 -->
+    <li v-for="(value, key) in cars" :key="key">
+      {{ key }} -- {{ value }}
+    </li>
+  </ul>
+  
+  <!-- 遍历字符串 -->
+  <h2> str list </h2>
+  <ul>
+    <!-- 遍历出第一个是字符， 第二个是字符所在的位置 -->
+    <li v-for="(char, index) in str" :key="index">
+      {{ char }} -- {{ index }}
+    </li>
+  </ul>
+  
+  <!-- 遍历指定次数 -->
+  <h2> number list </h2>
+  <ul>
+    <!-- 遍历出第一个是从1开始的自然数， 第二个是从0开始的自然数 -->
+    <li v-for="(num, index) in 5" :key="index">
+      {{ num }} -- {{ index }}
+    </li>
+  </ul>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  
+  new Vue({
+    el: '#root',
+    data: {
+      persons: [
+        {id: '001', name: 'xm', age: 18},
+        {id: '002', name: 'xh', age: 19},
+        {id: '003', name: 'xg', age: 20},
+      ],
+      cars: {
+        name: 'xx',
+        price: 123,
+        color: 'black'
+      },
+      str: 'hello'
+    }
+  })
+</script>
+</body>
+</html>

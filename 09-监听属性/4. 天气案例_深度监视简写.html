@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <div> 天气很 {{info}}</div>
+  <button @click="changeWeather"> 变 </button>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      isHot: true
+    },
+    computed: {
+      info() {
+        return this.isHot ? '热' : '冷'
+      }
+    },
+    methods: {
+      changeWeather() {
+        this.isHot = !this.isHot
+      }
+    },
+    // 监听属性
+    watch: {
+      // 完整格式
+      // isHot: {
+      //   handler(newVal, oldVal) {
+      //     console.log(newVal, 'newVal')
+      //     console.log(oldVal, 'oldVal')
+      //   },
+      //   // 当函数初始化时调用handler
+      //   immediate: true,
+      //   deep: true
+      // },
+  
+      // 简写格式
+      isHot(newVal, oldVal) {
+        console.log(newVal, 'newVal')
+        console.log(oldVal, 'oldVal')
+      }
+    }
+  })
+  
+  vm.$watch('info', function (newVal, oldVal) {
+    console.log(newVal, 'infoNewVal')
+    console.log(oldVal, 'infoOldVal')
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- 键盘事件有两种方式； 1. keyup -- 当按键按下并弹起后触发 2. keydown -- 当案件按下时触发-->
+    <!-- 判断是否按下回车可以用 .enter -->
+    <input type="text" placeholder="回车打印输入" @keyup.enter="showInfo">
+    
+    <!-- 常用案件别名
+    1. 回车 => enter
+    2. 删除 => delete (delete 和 backSpace)
+    3. 退出 => esc
+    4. 空格 => space
+    5. 换行 => tab  (特殊：必须使用keydown使用)
+    6. 上 =>  up
+    7. 下 => down
+    8. 左 => left
+    9. 右 => right
+    -->
+  
+    
+    <!--使用键名，当键名为两个单词时，需要使用 - 连接两个单词-->
+    <input type="text" placeholder="大写打印输入" @keyup.caps-lock="showInfo">
+
+    
+    <!-- 系统性按键：ctrl 、 alt 、 shift 、 meta（windows键）
+         配合keyup使用： 需要按键的同时再按下其他键，当其他键弹起时触发事件
+         配合keydown使用：正常触发事件
+    -->
+    <input type="text" placeholder="ctrl打印输入" @keyup.ctrl="showInfo">
+    <input type="text" placeholder="ctrl打印输入" @keydown.ctrl="showInfo">
+  
+    <!--自定义键名: Vue.config.keyCodes.自定义键名 = 键码，可以定制别名-->
+    <input type="text" placeholder="回车打印输入" @keyup.huiche="showInfo">
+    
+    <!--当要求两个案件按下时，触发事件-->
+    <input type="text" placeholder="ctrl + y 打印输入" @keyup.ctrl.y="showInfo">
+
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    
+    // 自定义键名: Vue.config.keyCodes.自定义键名 = 键码，可以定制别名
+    Vue.config.keyCodes.huiche = 13
+    
+    const vm = new Vue({
+      el: '#root',
+      data: {
+      
+      },
+      methods: {
+        showInfo(e) {
+          // 判断是否回车，如果不是回车则不执行下面的方法,使用e.keyCode判断是哪个案件
+          // if(e.keyCode != 13) return
+          
+          // 获取键名
+          // console.log(e.key, e.keyCode)
+          
+          console.log(e.target.value)
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>

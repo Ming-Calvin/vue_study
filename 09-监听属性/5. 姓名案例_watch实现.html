@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <input type="text" v-model="firstName">
+  <input type="text" v-model="lastName">
+  <span> {{fullName}} </span>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  new Vue({
+    el: '#root',
+    data: {
+      firstName: 'x',
+      lastName: 'm',
+      fullName: 'xm'
+    },
+    computed: {
+    },
+    watch: {
+      /*
+      * watch 和 computed 都能实现时，使用 computed 会更加方便一点
+      * 但是如果 computed 依靠的是 return的值，异步操作（如 Promise）不会立即返回计算的值，而是返回一个 Promise 对象
+      * 在碰到异步函数的时候，应该使用watch来监听变化
+      * */
+      
+      /*
+      * watch 和 computed 的区别
+      * 1. computed 能完成的功能 watch 也都能完成， 但是computed性能更好
+      * 2. watch 能完成的功能 computed 不一定能完成， 比如：异步操作
+      *
+      * 关于this的一些原则：
+      * 1. 当使用vue管理的函数时，写成普通函数，不写成箭头函数，确保this指向vue
+      * 2. 当使用不是vue管理的函数时（定时器函数、ajax回调函数）, 最好写成箭头函数，这样this找不到会向上寻找，就可以指向vue
+      * */
+      firstName(val) {
+        /*
+        * 箭头函数没有指定的this, this会向上找this,找到firstName的this -- vue
+        * */
+        setTimeout(() => {
+          this.fullName = val + this.lastName
+        })
+      },
+      lastName(val) {
+        this.fullName = this.firstName + val
+      }
+    }
+  })
+</script>
+</body>
+</html>

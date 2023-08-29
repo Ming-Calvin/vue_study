@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!--
+       <input type="text"> 时，v-model绑定的是value值，输入的值为value
+       <input type="radio"> 时，v-model绑定的是value值，需要自己配置value值
+       <input type="checkbox"> 时，v-model绑定的是checked值，选中 -- true ； 没选中 -- false
+       如果checkbox配置了value的值，且默认初始值是数组，则收集value组成的数组
+       
+       v-model的三个修饰符：
+       1. lazy：失去焦点时收集
+       2. number：将数值转换成数字
+       3. trim：去除输入框前后的空格
+    -->
+    
+    <!-- 绑定提交事件，并且阻止默认的事件 -->
+    <form @submit.prevent="demo">
+      <!-- 使用.trim， 可以让输入框前后的空格都去掉 -->
+      account: <input type="text" v-model.trim="userInfo.account">  <br/><br/>
+      password: <input type="password" v-model="userInfo.password">  <br/><br/>
+      <!-- 使用 type=number 控制输入仅允许数字 ; 使用 .number 设置输入值的类型为 数字-->
+      age: <input type="number" v-model.number="userInfo.age">  <br/><br/>
+      
+      sex:
+      boy <input type="radio" name="sex" value="male" v-model="userInfo.sex">
+      girl <input type="radio" name="sex" value="female" v-model="userInfo.sex">  <br/><br/>
+      
+      hobby:
+      h1 <input type="checkbox" value="h1" v-model="userInfo.hobby">
+      h2 <input type="checkbox" value="h2" v-model="userInfo.hobby">
+      h3 <input type="checkbox" value="h3" v-model="userInfo.hobby">  <br/><br/>
+  
+      city:
+      <select v-model="userInfo.city">
+        <option value=""> please choose </option>
+        <option value="s1"> s1 </option>
+        <option value="s2"> s2 </option>
+        <option value="s3"> s3 </option>
+        <option value="s3"> s4 </option>
+      </select>  <br/><br/>
+      
+      other:
+      <!-- 失去焦点的瞬间再收集 -->
+      <textarea v-model.lazy="userInfo.other"></textarea>  <br/><br/>
+      
+      <input type="checkbox" v-model="userInfo.agree"> read the <a href=""> rules </a>
+      
+      <button> submit </button>
+    </form>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        userInfo: {
+          account: '',
+          password: '',
+          age: '',
+          sex: '',
+          // 获取多个数据时，使用数组，返回的值是选中多选框的value
+          hobby: [],
+          city: '',
+          other: '',
+          // 当多选框使用字符串返回时，返回的值是这个框是否被选中，返回的是true 和 false
+          agree: ''
+        }
+      },
+      methods: {
+        demo() {
+          console.log(this.userInfo)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

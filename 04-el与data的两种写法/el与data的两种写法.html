@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>el与data的两种写法</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <h1> 你好，{{name}} </h1>
+  </div>
+  
+  <!--
+  data 和 el 有两种写法
+    1. el 有两种写法：
+      （1） new Vue时候配置el属性
+      （2）先创建Vue实例，在使用vm.$mount('#root')指定el的值
+    2. data 有两种写法
+      （1） 对象式
+      （2） 函数式
+      选择：使用组件时，data必须使用函数式
+    3. 注意：
+    由Vue管理的函数，一定不要写就箭头函数，写了箭头函数，this的指向就不是Vue实例了
+  -->
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    const v = new Vue ({
+      /*第一种写法*/
+      // el: '#root',
+      
+      /*data的两种写法*/
+      /*对象式*/
+      // data: {
+      //   name: '小明'
+      // }
+      
+      /*函数式 （重要）*/
+      /*不能用箭头函数，因为箭头函数的this是指向全局的windows*/
+      // data: function () {
+      //   console.log(this, 'this')
+      //   /* this是vue实例对象 */
+      //   return {
+      //     name: '小明'
+      //   }
+      // }
+      
+      data(){
+        return {
+          name: '小明'
+        }
+      }
+    })
+
+    setTimeout(() => {
+      /*第二种写法*/
+      v.$mount('#root')
+    }, 1000)
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let data = {
+    name: 'xm',
+    address:  'zzz'
+  }
+  
+  function Observer(obj) {
+    // 汇总所有对象名成为一个数组
+    const keys = Object.keys(obj)
+    
+    // 遍历
+    keys.forEach(item => {
+      // 将属性挂载在Observer构造函数中，并配置它的将set函数和get函数
+      Object.defineProperty(this, item, {
+        get() {
+          return data[item]
+        },
+        set(val) {
+          console.log(`${item}被改变了，解析模板，生成虚拟dom`)
+          data[item] = val
+        },
+      })
+    })
+  }
+  
+  // 使用构造函数创造一个新的实例，实例中的对象属性有自己的set和get属性, 修改和读取时分别操作 data 中的数据
+  const obs = new Observer(data)
+  
+  console.log(obs, 'obs')
+</script>
+</body>
+</html>

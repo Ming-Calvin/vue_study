@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!-- 遍历数组 -->
+  <h2> person list </h2>
+  
+  <!--v-model 双向绑定-->
+  <input type="text" v-model="keyWord">
+  
+  <ul>
+    <li v-for="(p, index) in filterPersons" :key="index">
+      {{p.name}} - {{p.age}} - {{ index }}
+    </li>
+  </ul>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  
+  // region  ======watch实现======
+  // new Vue({
+  //   el: '#root',
+  //   data: {
+  //     keyWord: '',
+  //     persons: [
+  //       {id: '001', name: 'abc', age: 19, sex: 'woman'},
+  //       {id: '002', name: 'dbe', age: 20, sex: 'woman'},
+  //       {id: '003', name: 'dgf', age: 21, sex: 'man'},
+  //       {id: '003', name: 'hgi', age: 22, sex: 'man'},
+  //     ],
+  //     filterPersons: []
+  //   },
+  //   watch: {
+  //     keyWord: {
+  //       immediate: true,
+  //       handler(val) {
+  //         // 当val为为空字符串时，includes返回的值为true
+  //         this.filterPersons = this.persons.filter(item => item.name.includes(val))
+  //         // 当val为为空字符串时，indexOf返回的值为0
+  //         // this.filterPersons = this.persons.filter(item => item.name.indexOf(val) !== -1)
+  //       }
+  //     }
+  //   }
+  // })
+  // endregion
+  
+  // region  ======computed实现======
+  new Vue({
+    el: '#root',
+    data: {
+      keyWord: '',
+      persons: [
+        {id: '001', name: 'abc', age: 19, sex: 'woman'},
+        {id: '002', name: 'dbe', age: 20, sex: 'woman'},
+        {id: '003', name: 'dgf', age: 21, sex: 'man'},
+        {id: '003', name: 'hgi', age: 22, sex: 'man'},
+      ],
+    },
+    computed: {
+      filterPersons() {
+        // computed 在两个时候调用：1. 初始化时 2. 当中间的数据改变时
+        return this.persons.filter(item => item.name.includes(this.keyWord))
+      }
+    }
+  })
+  // endregion
+  
+</script>
+</body>
+</html>

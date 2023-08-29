@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+  <script src="dayjs.min.js"></script>
+</head>
+<body>
+<div id="root">
+  <!--
+    过滤器
+    作用： 将数据转换成其他哥是再显示
+    
+    注册：
+    1. 全局：Vue.filter(’过滤器名‘, function() { 过滤器函数 })
+    2. 局部：new Vue({ filters: { ....... }})
+  
+    使用：
+    1. {{ 值 | 过滤器 }}
+    2. v-bind:x = 值 | 过滤器
+  
+    备注：
+    1. 过滤器可以接收额外的参数，也可以串联
+    2. 过滤器没有改变原来的数据，是新产生了一个数据
+  -->
+  
+  
+  <h2> 格式化后的时间 </h2>
+  <div> computed： {{ fmtTime }}</div>
+  <div> methods： {{ getFmtTime() }}</div>
+  <!-- 过滤器 -->
+  <div> filter：{{ fmtTime | timeFormater }}</div>
+  <!-- 带参数的过滤器 如果过滤器带参数，则在过滤器中可以获取到两个参数，第一个是前面的参数，第二个是后面的格式 -->
+  <div> filter：{{ fmtTime | timeFormater('YYYY_MM_DD') }}</div>
+  <!-- 多重过滤器 使用多个 | 分割-->
+  <div> filter：{{ fmtTime | timeFormater('YYYY_MM_DD') | mySlice }}</div>
+  
+  <div :x="bind | mySlice"> v-bind 使用过滤器 </div>
+</div>
+
+<div id="root2">
+  <h2> 另一个vue </h2>
+  <div> {{ msg | mySlice }}</div>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  // 全局过滤器
+  Vue.filter('mySlice', function (val) {
+    return val.slice(0, 4)
+  })
+  
+  new Vue({
+    el: '#root',
+    data: {
+      time: new Date(),
+      bind: '123131231312'
+    },
+    computed: {
+      fmtTime() {
+        return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    methods: {
+      getFmtTime() {
+        return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    filters: {
+      // 局部过滤器
+      timeFormater(val, str = 'YYYY-MM-DD HH:mm:ss') {
+        return dayjs(val).format(str)
+      }
+    }
+  })
+  
+  new Vue({
+    el:  "#root2",
+    data: {
+      msg: '1231313112312'
+    }
+  })
+</script>
+</body>
+</html>

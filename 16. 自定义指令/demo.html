@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <button id="btn"> add input element on click</button>
+
+  <script>
+    const btn = document.getElementById('btn')
+    
+    btn.onclick = () => {
+      const input = document.createElement('input')
+      
+      // 在input节点被加载到页面时，可以执行的操作
+      input.value = 99
+      input.onclick = () => { alert(1) }
+      
+      document.body.appendChild(input)
+  
+      // 在input节点被加载到页面后，才可以执行的操作
+      input.focus()
+      input.parentElement.style.backgroundColor = 'blue'
+    }
+    
+  </script>
+</body>
+</html>

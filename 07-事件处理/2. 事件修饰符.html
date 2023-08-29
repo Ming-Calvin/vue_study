@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <style>
+    ul {
+      height: 200px;
+      width: 100px;
+      background-color: lightblue;
+      overflow: auto;
+    }
+    
+    li {
+      height: 50px;
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <!--vue 中阻止默认事件可以用 .prevent-->
+    <a href="www.baidu.com" @click.prevent="showInfo">123</a>
+    
+    <!--vue 中阻止事件事件冒泡可以用 .stop-->
+    <div style="height: 50px; margin-top: 10px; background-color: green;" @click="showDiv">
+      <button @click.stop="showInfo"> 点击 </button>
+    </div>
+  
+    <!--vue 中事件只触发一次可以用 .once-->
+    <div>
+      <button @click.once="showInfo"> 点击 </button>
+    </div>
+    
+    <!--js 事件点击时，会先经历捕获阶段：先获取div1再获取div2；然后触发冒泡阶段，先获取div2再获取div1，执行的方法是从冒泡阶段开始的，所以
+    会先执行div2中的方法再执行div1中的方法-->
+    <!--vue 中想让事件从捕获阶段开始执行方法，先执行前面的方法，再执行中间的方法可以用 .capture-->
+    <div style="padding: 5px; background-color: yellow;" @click.capture="showMsg(1)">
+      div1
+      <div style="height: 20px; background-color: blue;" @click="showMsg(2)">
+        div2
+      </div>
+    </div>
+  
+    <!--vue 中当触发事件的元素（e.target）是当前元素时触发方法可以用(也可以阻止冒泡) .self-->
+    <div style="height: 50px; margin-top: 10px; background-color: green;" @click.self="showDiv">
+      <button @click="showInfo"> 点击 </button>
+    </div>
+    
+    <!--滚动事件有两个方法： scroll 当滚动条滚动时（鼠标、键盘、拉动滚动条都可以执行，当滚动条到底后不再触发）， wheel当鼠标滚轮滚动时 -->
+    <!-- vue中默认行为立即执行用passive，这样不会等滚动事件结束后才能进行滚动-->
+    <ul @wheel.passive="demo">
+      <li> 1 </li>
+      <li> 2 </li>
+      <li> 3 </li>
+      <li> 4 </li>
+      <li> 5 </li>
+      <li> 6 </li>
+      <li> 7 </li>
+    </ul>
+  
+    <!-- 两种事件修饰同时需要时，可以一起写 -->
+    <div style="height: 50px; margin-top: 10px; background-color: green;" @click="showDiv">
+      <a href="www.baidu.com" @click.prevent.stop="showInfo">123</a>
+    </div>
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+      
+      },
+      methods: {
+        showInfo(e) {
+          // 阻止默认事件发生
+          // e.preventDefault()
+          
+          // 阻止事件冒泡
+          // e.stopPropagation()
+          
+          alert(123)
+        },
+        showDiv() {
+          alert('xxx')
+        },
+        showMsg(num) {
+          // 一般情况下点击2，会输出 2 1
+          // 在冒泡阶段获取值时，点击2 会输出 1 2
+          console.log(num)
+        },
+        demo() {
+          // for(let i = 0; i <= 1000000; i++) {
+          //   console.log('#')
+          // }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!-- 遍历数组 -->
+  <h2> person list </h2>
+  
+  <!--v-model 双向绑定-->
+  <input type="text" v-model="keyWord">
+  
+  <ul>
+    <li v-for="(p, index) in filterPersons" :key="p.id">
+      {{p.name}} - {{p.age}} - {{ index }}
+    </li>
+  </ul>
+  
+  <button @click="sortType = 2"> 升序 </button>
+  <button @click="sortType = 1"> 降序 </button>
+  <button @click="sortType = 0"> 原序 </button>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  new Vue({
+    el: '#root',
+    data: {
+      keyWord: '',
+      persons: [
+        {id: '001', name: 'abc', age: 30, sex: 'woman'},
+        {id: '002', name: 'dbe', age: 31, sex: 'woman'},
+        {id: '003', name: 'dgf', age: 18, sex: 'man'},
+        {id: '003', name: 'hgi', age: 19, sex: 'man'},
+      ],
+      sortType: 0 // 0 - 原序; 1 - 降序; 2 - 升序
+    },
+    computed: {
+      filterPersons() {
+        // computed 在两个时候调用：1. 初始化时 2. 当中间的数据改变时
+        const arr = this.persons.filter(item => item.name.includes(this.keyWord))
+        
+        // 当sortType不为0的时候，进行排序； 如果sortType为0，则不再进行排序操作
+        if(this.sortType) {
+          // sort函数 , p1 - p2 返回值为负数时, p1 在 p2 前面（小的在前面） ；
+          //                    0时， p1 和 p2 的位置不会改变 ；
+          //                    正数时，p1 在 p2 后面（小的在前面）
+          //                    小的在前面，所以为 正序
+          
+          // 如果需要倒序，则需要让大的在前面, 使用 -（p1 - p2）, 返回值为负数时, p2 在 p2 前面（大的在前面） ；
+          //                              则为 p2 - p1
+          
+          arr.sort((p1, p2) => this.sortType == 1 ? p2.age - p1.age : p1.age - p2.age)
+        }
+  
+        console.log(arr)
+        return arr
+      }
+    }
+  })
+</script>
+</body>
+</html>

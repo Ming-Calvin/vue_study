@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <input type="text" v-model="firstName">
+  <input type="text" v-model="lastName">
+  <!--每次数据刷新时，方法都会再次调用-->
+  <span> {{fullName}} </span>
+</div>
+
+<!--
+计算属性：
+  定义： 要使用的属性不存在，且可以通过已知的属性计算出来
+  原理： 使用了Object.defineproperty的getter 和 setter
+  get什么时候执行： 1. 当第一次读取数据时   2. 当依赖的数据发生改变时
+  set什么时候执行： 当数据修改时（set的修改要引起所依赖数据的修改，因为计算属性是计算出来的，所以要依赖的数据修改）
+  优势： 计算属性有缓存机制，同一个数据仅仅需要计算一次，使用methods时会多次调用
+  备注： 计算属性会出现在vm上，直接进行读写就行
+-->
+
+<script>
+  Vue.config.productionTip = false
+
+  new Vue({
+    el: '#root',
+    data: {
+      firstName: 'x',
+      lastName: 'm',
+    },
+    computed: {
+      fullName: {
+        // 当fullName被读取时get会被调用
+        // get被调用的时机：1.第一次读取fullName时  2.当所依赖的数据发生变化时
+        get() {
+          console.log(this)
+          
+          return this.firstName + '-' + this.lastName
+        },
+        // set被调用的时机：fullName被修改时
+        set (value) {
+          let arr = value.split('-')
+          this.firstName = arr[0]
+          this.lastName = arr[1]
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

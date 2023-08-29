@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+  
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        name: 'xm',
+        address: 'zzz',
+        student: {
+          name: 'ab',
+          age: {
+            // vue 对象展开后每一层都有自己的get 和 set 函数，直至没有对象为止
+            rage: 20,
+            sage: 18
+          }
+        },
+        friend: [
+          // vue 同样也能读取数组中的对象，对象中依旧有get 和 set
+          { name: 'xx', age: 30 }
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

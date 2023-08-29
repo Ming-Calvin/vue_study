@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!--
+    用Vue.js创建一个新的实例，并将数据和方法绑定到一个名为feedbackForm的div元素上。
+    表单应该包含以下输入框：
+    电影名称 (movieName)：文本输入框，使用.trim修饰符去除前后空格。
+    评分 (rating)：数字输入框，只能输入0-10之间的数字，使用.number修饰符确保输入值为数字。
+    评论 (comment)：文本区域 (textarea)，使用.trim修饰符去除前后空格。
+    是否推荐 (recommend)：复选框，绑定到一个布尔值。
+    在表单下方，添加一个提交按钮。当用户点击此按钮时，应该显示他们输入的信息，并阻止表单的默认提交行为。
+    在Vue实例中，定义一个方法showFeedback，该方法在点击提交按钮时被调用，并显示用户输入的信息。
+   -->
+  
+  <div id="feedbackForm">
+    <form>
+      电影名称: <input type="text" v-model.trim="userInfo.movieName">  </br>
+      评分: <input type="number" v-model.number="userInfo.rating">  </br>
+      评论: <textarea v-model.trim="userInfo.comment"></textarea>  </br>
+      是否推荐: <input type="checkbox" v-model="userInfo.recommend">  </br>
+    
+      <button @click.prevent="showFeedback">提交</button>
+    </form>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#feedbackForm',
+      data: {
+        userInfo: {
+          movieName: "",
+          rating: "",
+          comment: "",
+          recommend: false
+        }
+      },
+      methods: {
+        showFeedback() {
+          console.log(this.userInfo)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

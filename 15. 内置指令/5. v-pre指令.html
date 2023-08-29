@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!--
+   v-pre: 加上之后的结构不会再进行vue的解析，跳过他的编译过程
+   一般用于没有语法的文本，加快编译速度
+  -->
+
+
+  <div id="root">
+    <h2 v-pre> n </h2>
+    <h2 v-pre> {{ n }} </h2>  <!-- {{ n }}-->
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        n: 2
+      },
+    })
+  </script>
+</body>
+</html>

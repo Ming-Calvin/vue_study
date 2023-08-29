@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- 不能在页面直接 {{ 方法（） }}， 当方法改变data中数据时，页面会重新渲染，导致方法再次被调用，造成死循环 -->
+    <h2 :style="{opacity}"> 啦啦啦啦啦 </h2>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        opacity: 1
+      },
+      // 在模板解析完成并将真实的dom元素挂载到页面之后
+      mounted() {
+        // 使用箭头函数，让函数中的没有this指向，当函数内需要this时会向上找到vue的this
+        setInterval(() => {
+          this.opacity -= 0.01
+          if(this.opacity <= 0) this.opacity = 1
+        }, 16)
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!--
+    v-once: 当数据在第一次动态渲染后（页面给中第一次展示值的时候），就变成静态内容了
+    之后无论数据再怎么修改，都不会影响到v-once所在的的结构，可以用于优化性能
+  -->
+
+
+  <div id="root">
+    <h2 v-once> before: {{  n }}</h2> <!-- 3 -->
+    <h2> now: {{  n }}</h2> <!-- 4 -->
+    
+    <button @click="n++"> add </button>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        n: 2
+      },
+      created() {
+        this.n = 3  // 这个值
+      },
+      mounted() {
+        this.n = 4
+      },
+      update() {
+        this.n = 5
+      }
+    })
+  </script>
+</body>
+</html>

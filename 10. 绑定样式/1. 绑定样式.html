@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+  <style>
+    .basic {
+      width: 200px;
+      height: 100px;
+      border: 1px solid black;
+    }
+    
+    .happy {
+      background-color: yellow;
+    }
+    .sad {
+      background-color: blue;
+    }
+    .normal {
+      background-color: green;
+    }
+    
+    .sty1 {
+      background-color: red;
+    }
+    .sty2 {
+      font-size: 20px;
+      text-shadow: 0.1em 0.1em black;
+    }
+    .sty3 {
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+<div id="root">
+  <!--
+  1. class 样式：
+    a. 写法 :class="xxx"， 字符串、对象、数组
+    字符串： 类名不确定，动态获取
+    数组： 绑定多个样式，类名不确定，数量不确定
+    对象： 绑定多个样式，类名确定，数量确定，但是是否启用不确定
+  2. style 样式：
+    a. 写法 ：style="xxx"， 对象、数组
+    对象：样式对象，
+    数组： 两组样式对象连接到一起
+  -->
+  
+  <!-- 绑定class样式，字符串写法，适用于 样式的类名不确定，需要动态指定 -->
+  <div class="basic" :class="mood" @click="changeMood"> text </div>
+  <br>
+  
+  <!-- 绑定class样式，数组写法，适用于 样式的数量不确定，类名不确定 -->
+  <div class="basic" :class="classArr"> xxx </div>
+  <br>
+  
+  <!-- 绑定class样式，对象写法，适用于 样式的数量确定，类名确定，但是不确定样式要不要使用 -->
+  <div class="basic" :class="classObj"> yyy </div>
+  <br>
+  
+  <!-- 绑定style样式，对象写法, 对象的值为样式对象 -->
+  <div class="basic" :style="styleObj"> zzz </div>
+  <br>
+  <!-- 绑定style样式，数组写法, 数组的值为样式多个样式对象拼接到一起 -->
+  <div class="basic" :style="styleArr"> fff </div>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  
+  new Vue({
+    el: '#root',
+    data: {
+      mood: 'happy',
+      classArr: ['sty1', 'sty2', 'sty3'],
+      classObj: {
+        sty1: false,
+        sty2: false
+      },
+      styleObj: {
+        fontSize: '40px',
+        color: '#000'
+      },
+      styleArr: [
+        {
+          fontSize: '40px',
+          color: '#000'
+        },
+        {
+          backgroundColor: 'blue'
+        }
+      ]
+    },
+    methods: {
+      changeMood() {
+        const arr = ['happy', 'sad', 'normal']
+        // Match.random 产生0 - 1 的随机数， 可以取到0 ，但是取不到1
+        // Match.floor 向下取整
+        
+        this.mood = arr[Math.floor(Math.random() * 3)]
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!--
+    条件渲染：
+    1. v-if   适用： 不频繁切换的场景
+              特点： 直接删除dom元素
+              注意： v-if 和 v-else-if 和 v-else 之间不能被其他标签打断
+    2. v-show 适用： 频繁切换的场景
+              特点： 将dom元素隐藏和显示
+              
+    3. v-if 可能无法获取到元素，但是v-show一定可以获取到元素
+    -->
+    
+    <!-- 控制dom节点的显示与隐藏 -->
+    <div v-show="false"> v-show </div>
+    <div v-show="1 === 1"> v-show </div>
+  
+    <!-- 控制dom节点的增加与删除 -->
+    <div v-if="false"> v-if </div>
+    <div v-if="1 === 1"> v-if </div>
+    
+    <div> 数字: {{ num }} </div>
+    <button @click="num++"> 点击添加 </button>
+    <!--
+    切换频繁使用 v-show , 否则使用 v-if
+    -->
+    <div v-if="num === 1"> a </div>
+    <div v-else-if="num === 2"> b </div>
+    <div v-else-if="num === 3"> c </div>
+    <div v-else> d </div>
+    
+    <!-- 当所有的判断条件一致时，可以使用v-if 和 template 将节点包裹起来, 这样不会破坏结构， v-show 不能和 template 一起使用 -->
+    <template v-if="n===1">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </template>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el: '#root',
+      data: {
+        num: 0
+      }
+    })
+  </script>
+</body>
+</html>
