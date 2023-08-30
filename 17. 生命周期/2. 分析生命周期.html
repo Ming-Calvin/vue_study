@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <div> n: {{ n }} </div>
+  <button @click="add()"> n++ </button>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+  
+  const vm = new Vue({
+    el: '#root',
+    // 模板会直接覆盖整个id为root的div，模板内需要添加div来包裹整个模板
+    // template: `
+    //   <div>
+    //     <div> n: {{ n }} </div>
+    //     <button @click="add()"> n++ </button>
+    //   </div>
+    // `,
+    data: {
+      n: 1
+    },
+    methods: {
+      add() {
+        this.n++
+      }
+    },
+    beforeCreate() {
+      // 这个节点主要是设置生命周期（一些标志，比如是否挂载），事件机制
+      // 此时数据没有代理，在vm中没有_data，也没有相对应的属性，无法调用data中的数据，也无法调用methods中的方法
+      console.log('beforeCreate')
+      // console.log(this)
+      // debugger
+    },
+    created()  {
+      // 此时数据已经代理了，可以获取data中的数据和调用methods中的方法
+      console.log('created')
+      // console.log(this)
+      // debugger
+    },
+    beforeMount() {
+      // 之前vue解析了模板，在内存中生成虚拟dom，但是还没有挂载到页面上，页面上也不能显示解析好的内容
+    },
+    mounted() {
+      // 这这个过程中，将虚拟dom转换为真实dom插入页面中，所以再此之前的修改dom操作都会被覆盖掉
+    },
+    update() {
+      // 数据是新的，但是页面是旧的
+    },
+    beforeUpdate() {
+      // 数据是新的，但是页面也是新的
+    }
+  })
+  
+  // created -- beforeMount 之间， 如果el没有绑定，则可以使用这个方法调用
+  // vm.$mount('#root')
+</script>
+</body>
+</html>
