@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- 不能在页面直接 {{ 方法（） }}， 当方法改变data中数据时，页面会重新渲染，导致方法再次被调用，造成死循环 -->
+    <h2 :style="{opacity}"> 啦啦啦啦啦 </h2>
+    <button @click="stop"> 停止定时器 </button>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+    
+    /*
+    * 生命周期
+    * 1. mounted：发送ajax请求、启动定时器、绑定自定义事件，订阅信息
+    * 2. beforeDestroy：清除定时器，取消绑定自定义事件，取消订阅信息
+    *
+    * 销毁vue后
+    * 1. 销毁后自定义的事件会失效，但是绑定在dom身上的事件还能生效
+    * 2. 不在beforeDestroy周期更新数据，因为不会再触发update周期,数据改变了，页面也不会再触发更新
+    * */
+    
+    new Vue({
+      el: '#root',
+      data: {
+        opacity: 1,
+        // 定时器
+        timer: ''
+      },
+      // 在模板解析完成并将真实的dom元素挂载到页面之后
+      mounted() {
+        // 使用箭头函数，让函数中的没有this指向，当函数内需要this时会向上找到vue的this
+        this.timer = setInterval(() => {
+          this.opacity -= 0.01
+          if(this.opacity <= 0) this.opacity = 1
+        }, 16)
+      },
+      methods: {
+        stop() {
+          this.$destroy()
+        }
+      },
+      beforeDestroy() {
+        // 在vue销毁时清除定时器
+        clearInterval(this.timer)
+      }
+    })
+  </script>
+</body>
+</html>

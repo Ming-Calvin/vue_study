@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!--
+    1. 创建组件
+    使用 Vue.extend({
+      options
+    })
+    
+    此时options与 new Vue({ options }) 的 options 差不多
+    区别：
+    a. 不能添加el, 因为最后组件都会被一个vm管理，vm中的el决定它在哪个容器中
+    b. data 不能使用对象，要使用函数
+    c. html结构使用 template模板实现
+    
+    2. 定义组件
+    a. 局部定义
+    components: { 组件名称 }
+    b. 局部定义
+    Vue.component('组件名称', 组件)
+    
+    3. 使用组件
+    <组件名称></组件名称>
+  -->
+
+
+  <div id="root">
+    <h1> msg: {{ msg }} </h1>
+    <!--3. 使用组件 -->
+    <xuesheng></xuesheng>
+    <hr/>
+    <school></school>
+    
+    <hello></hello>
+  </div>
+  
+  <div id="root2">
+    <hello></hello>
+  </div>
+  
+  <script>
+    Vue.config.productionTip = false
+  
+    // 1. 创建组件
+    const student = Vue.extend({
+      data() {
+        return {
+          stuName: 'xm',
+          age: 18
+        }
+      },
+      // 要用一个div包起来
+      template: `
+        <div>
+          <h2> student </h2>
+          <div> name: {{ stuName }}</div>
+          <div> age: {{ age }}</div>
+          <button @click="showName"> show stuName </button>
+        </div>
+      `,
+      methods: {
+        showName() {
+          console.log(this.stuName, 'stuName')
+        }
+      }
+    })
+    const school = Vue.extend({
+      // 组件中的data要使用函数形式，不能使用对象形式。因为如果使用对象形式，会导致每次复用组件时，使用的组件的数据是单个data的地址
+      // 如果使用函数的话，每次使用都会刷新一个新的data，不会影响多个组件的内容
+      data() {
+        return {
+          schName: 'sch',
+          address: 'fj'
+        }
+      },
+      template: `
+        <div>
+          <h2> school </h2>
+          <div> name: {{ schName }}</div>
+          <div> address: {{ address }}</div>
+        </div>
+      `
+    })
+    const hello = Vue.extend({
+      template: `
+        <div> {{ hello }}</div>
+      `,
+      data() {
+        return {
+          hello: 'hello Tom'
+        }
+      }
+    })
+    
+    // 2。 注册组件（全局注册）
+    Vue.component('hello', hello)
+    
+    new Vue({
+      el: '#root',
+      // 2. 注册组件（局部注册）
+      components: {
+        xuesheng: student,
+        // es6 简写
+        school
+      },
+      data() {
+        return {
+          msg:  'msg'
+        }
+      }
+    })
+    
+    new Vue({
+      el: "#root2"
+    })
+  </script>
+</body>
+</html>

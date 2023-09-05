@@ -8,7 +8,8 @@
 <body>
 <div id="root">
   <div> n: {{ n }} </div>
-  <button @click="add()"> n++ </button>
+  <button @click="add"> n++ </button>
+  <button @click="destroy"> destroy </button>
 </div>
 
 <script>
@@ -20,7 +21,7 @@
     // template: `
     //   <div>
     //     <div> n: {{ n }} </div>
-    //     <button @click="add()"> n++ </button>
+    //     <button @click="add"> n++ </button>
     //   </div>
     // `,
     data: {
@@ -28,7 +29,14 @@
     },
     methods: {
       add() {
+        console.log('add')
         this.n++
+      },
+      destroy() {
+        // 销毁实例
+        this.$destroy()
+        
+        // 销毁后数据不能再实时更新，watch无法监听到数据,但是vue已经工作过，所以页面是vue工作后的样子，方法在事先绑定了也可以继续使用
       }
     },
     beforeCreate() {
@@ -49,12 +57,28 @@
     },
     mounted() {
       // 这这个过程中，将虚拟dom转换为真实dom插入页面中，所以再此之前的修改dom操作都会被覆盖掉
-    },
-    update() {
-      // 数据是新的，但是页面是旧的
+  
+      console.log(this.$el, this.$el instanceof HTMLElement, '$el')
     },
     beforeUpdate() {
+      // 数据是新的，但是页面是旧的
+    },
+    updated() {
       // 数据是新的，但是页面也是新的
+    },
+    beforeDestroy() {
+      // 能操作和访问vm中的数据和方法，但是此时改变数据不会再调用update生命周期，所以就算数据改变，更新的值也不会再到页面上
+      this.add()
+      console.log(this.n) // n 改变，但页面数据不变
+  
+      // 适合做收尾工作： 比如取消定时器
+    },
+    destroy() {
+    },
+    watch: {
+      n() {
+        console.log('n change')
+      }
     }
   })
   
