@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <school></school>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  const student = {
+    template: `
+      <div> {{ stuName }}</div>
+    `,
+    data() {
+      return {
+        stuName: 'student'
+      }
+    },
+  }
+
+  const school = {
+    template: `
+      <div>
+        <div> {{ schName }}</div>
+        <student></student>
+      </div>
+    `,
+    data() {
+      return {
+        schName: 'school'
+      }
+    },
+    components: {
+      student
+    }
+  }
+
+  new Vue({
+    el: '#root',
+    data: {},
+    components: {
+      school
+    }
+  })
+</script>
+</body>
+</html>

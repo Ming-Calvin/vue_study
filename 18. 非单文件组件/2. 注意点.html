@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!--
+    一个单词组成
+      1. 使用全小写  school
+      2. 使用首字母大写  School
+    多个单词组成
+      1. 使用kebab-case: my-school
+      2. 使用CamelCase： MySchool
+
+    注意：
+      1. 组件名不适用 html 标签
+      2. 可以使用name进行组件配置，配置后开发者工具会显示name配置的名称
+
+    标签的使用
+     1. 使用双标签： <school></school>
+     2. 使用单标签:  <school/> 使用脚手架才能使用
+
+    简写方式:
+    const component = Vue.expand(options) ==> const component = options
+  -->
+
+
+  {{ msg }}
+
+<!--  <school></school>-->
+  <my-school></my-school>
+<!--  <MySchool></MySchool>-->
+<!--  <my-school/>-->
+
+  <c></c>
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  const s = Vue.extend({
+    // 配置名称
+    name: 'schoolName',
+    template: `
+      <div>
+        <div> {{ name }}</div>
+        <div> {{ address }}</div>
+      </div>
+    `,
+    data() {
+      return {
+        name: 'xx',
+        address: 'ppp'
+      }
+    },
+  })
+
+  const c = {
+    template: `
+      <div>
+        <div> {{ age }}</div>
+      </div>
+    `,
+    data() {
+      return {
+        age: 10
+      }
+    },
+  }
+
+  new Vue({
+    el: '#root',
+    data: {
+      msg: 'xxx'
+    },
+    components: {
+      // 写法1： 纯小写
+      // school: s
+      // 写法2： -分割字符 kabab-case
+      'my-school': s,
+      // 写法3：驼峰 (只能再脚手架中使用) CamelCase
+      // MySchool: s
+      c
+    },
+  })
+</script>
+</body>
+</html>
