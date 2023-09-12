@@ -7,12 +7,12 @@
 </head>
 <body>
 <div id="root">
-  <school></school>
 </div>
 
 <script>
   Vue.config.productionTip = false
 
+  // 创建student组件
   const student = {
     template: `
       <div> {{ stuName }}</div>
@@ -24,6 +24,7 @@
     },
   }
 
+  // 创建school组件
   const school = {
     template: `
       <div>
@@ -41,11 +42,37 @@
     }
   }
 
+  // 创建hello组件
+  const hello = Vue.extend({
+    template: `
+      <div> {{ msg }} </div>
+    `,
+    data() {
+      return {
+        msg: 'hello'
+      }
+    }
+  })
+  
+  // 创建一个app组件存放所有的组件
+  const app = Vue.extend({
+    template: `
+      <div>
+        <school></school>
+        <hello></hello>
+      </div>
+    `,
+    components: {
+      school, hello
+    }
+  })
+  
   new Vue({
+    template: `<app></app>`,
     el: '#root',
     data: {},
     components: {
-      school
+      app
     }
   })
 </script>

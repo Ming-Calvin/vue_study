@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!--
+    根据vue的源码文件，每次返回的VueComponent都是新创建的
+    每次返回的sub都是临时的变量，所以返回的VueComponent都是新创建的
+    Vue.extend = function(extendOptions) {
+      /*...............*/
+      
+      var sub = function VueComponent(options) {
+        /*...VueComponent 调用的方法...*/
+      }
+    
+      /*...............*/
+      
+      return sub
+    }
+  -->
+  
+  <!--
+    1. 组件本质是一个 VueComponent 构造函数，由Vue.extend生成的
+    2. 调用组件时，会自动 new 来创建一个 VueComponent 实例对象
+    3. 每次 Vue.extend 创建的 VueComponent 都是新的构造函数
+    4. 关于this：
+      a. 在new Vue 中: this 指向 vm
+      b. 在 组件 中: this 指向 VueComponent
+    5. 组件实例对象 -- VueComponent -- vc
+       Vue 实例对象 -- VueModel -- vm
+  -->
+  
+</div>
+
+<script>
+  Vue.config.productionTip = false
+
+  // 创建school组件
+  const school = Vue.extend({
+    template: `
+      <div>
+        <div> {{ schName }}</div>
+      </div>
+    `,
+    data() {
+      return {
+        schName: 'school'
+      }
+    }
+  })
+
+  // school本质是一个 VueComponent 组件
+  console.log('school', school)
+  
+  
+  new Vue({
+    el: '#root',
+    data: {}
+  })
+</script>
+</body>
+</html>

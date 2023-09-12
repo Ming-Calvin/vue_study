@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+<script>
+  // Vue.config.productionTip = false
+  //
+  // function Demo() {
+  //   this.a = 1
+  //   this.b = 2
+  // }
+  //
+  // const d = new Demo()
+  //
+  // console.log(Demo.prototype)
+  // console.log(d.__proto__)
+  // console.log(Demo.prototype === d.__proto__)
+  //
+  // Demo.prototype.x = 99
+  //
+  // console.log(d.x)
+  // console.log(d)
+  
+  /*
+  * vue构造函数的 prototype 指向 vue的原型对象 Vue.prototype
+  * vue构造函数创建的实例对象vm的 __proto__ 指向 vue的原型对象 Vue.prototype
+  *
+  * vueComponent 构造函数的 prototype 指向 vueComponent的原型对象 vueComponent.prototype
+  * vueComponent 构造函数创建的实例对象vc 的 __proto__ 指向 vueComponent的原型对象 vueComponent.prototype
+  *
+  * vue.prototype 的 __prototype__ 指向 Object 构造函数
+  * vueComponent.prototype 的 __prototype__ 为了能够获取到 Vue 中的属性和方法，所以指向 vue.prototype , 当vc找不到属性时，会沿着原型链往上
+  * 找，找到vm原型对象中的属性
+  *
+  * 所以：vueComponent.prototype. __prototype__ === Vue.prototype
+  * */
+  
+  
+  new Vue({
+    el: '#root',
+    data: {}
+  })
+</script>
+</body>
+</html>
